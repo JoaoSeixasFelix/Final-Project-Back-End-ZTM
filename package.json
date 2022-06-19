@@ -1,0 +1,23 @@
+{
+  "name": "final-project-back-end-ztm",
+  "version": "1.0.0",
+  "description": "Back End for final aplication course ZTM",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoaoSeixasFelix/Final-Project-Back-End-ZTM.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoaoSeixasFelix/Final-Project-Back-End-ZTM/issues"
+  },
+  "homepage": "https://github.com/JoaoSeixasFelix/Final-Project-Back-End-ZTM#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
