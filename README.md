@@ -9,4 +9,5 @@ Back End for final aplication course ZTM
     - [Express](https://expressjs.com)
     - [Nodemon](https://nodemon.io/)
     - [bcrypt](https://www.npmjs.com/package/bcrypt)
+    - [cors](https://www.npmjs.com/package/cors)
 
