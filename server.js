@@ -2,12 +2,10 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 var cors = require("cors");
-app.use(cors())
+app.use(cors());
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const myPlaintextPassword = "s0//P4$$w0rD";
-const someOtherPlaintextPassword = "not_bacon";
 
 const dataBase = {
   users: [
@@ -16,6 +14,7 @@ const dataBase = {
       name: "Jonh",
       email: "jonhconstantine@gmail.com",
       entries: "0",
+      password: "cookies",
       joined: new Date(),
     },
     {
@@ -41,14 +40,14 @@ app.get("/", function (req, res) {
 
 app.post("/signin", (req, res) => {
   if (
-    req.body.email === dataBase.users[0].email &&
-    req.body.password === dataBase.users[0].password
+    req.body.email === dataBase.users[2].email &&
+    req.body.password === dataBase.users[2].password
   ) {
-    res.json(`Sucess Login. Hello, ${dataBase.users[0].name} welcome again`);
+    res.json("sucess");
   } else {
     res.status(400).json("error logging in");
   }
-});
+});-
 
 app.post("/signup", (req, res) => {
   const { name, email, password } = req.body;
