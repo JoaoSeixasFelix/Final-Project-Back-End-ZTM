@@ -14,4 +14,4 @@ Back End for final aplication course ZTM
     - [Nodemon](https://nodemon.io/)
     - [bcrypt](https://www.npmjs.com/package/bcrypt)
     - [cors](https://www.npmjs.com/package/cors)
-
+    - [Knex.js](http://knexjs.org/guide/)
