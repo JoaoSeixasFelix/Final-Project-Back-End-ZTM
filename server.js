@@ -3,105 +3,103 @@ const app = express();
 app.use(express.json());
 var cors = require("cors");
 app.use(cors());
-
+const knex = require("knex");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-const dataBase = {
-  users: [
-    {
-      id: "123",
-      name: "Jonh",
-      email: "jonhconstantine@gmail.com",
-      entries: "0",
-      password: "cookies",
-      joined: new Date(),
-    },
-    {
-      id: "1234",
-      name: "Sally",
-      email: "sally@gmail.com",
-      entries: "0",
-      joined: new Date(),
-    },
-  ],
-  login: [
-    {
-      id: "987",
-      hash: "",
-      email: "jonhconstantine@gmail.com",
-    },
-  ],
-};
-
-app.get("/", function (req, res) {
-  res.send(dataBase.users);
+const db = knex({
+  client: "pg",
+  connection: {
+    host: "127.0.0.1",
+    port: 5432,
+    user: "joaopaulo",
+    password: "kakaroto123",
+    database: "smart-horse",
+  },
 });
 
 app.post("/signin", (req, res) => {
-  if (
-    req.body.email === dataBase.users[2].email &&
-    req.body.password === dataBase.users[2].password
-  ) {
-    res.json("sucess");
-  } else {
-    res.status(400).json("error logging in");
-  }
-});-
+  db.select("email", "hash")
+    .from("login")
+    .where("email", "=", req.body.email)
+    .then((data) => {
+      const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
+      if (isValid) {
+        return db
+          .select("*")
+          .from("users")
+          .where("email", "=", req.body.email)
+          .then((user) => {
+            res.json(user[0]);
+          })
+          .catch((err) => {
+            res.status(400).json("unable to get user");
+          });
+      } else {
+        res.status(400).json("wrong credentials");
+      }
+    })
+    .catch((err) => {
+      res.status(400).json("Password or Email wrong.");
+    });
+});
 
 app.post("/signup", (req, res) => {
-  const { name, email, password } = req.body;
-  bcrypt.hash(password, saltRounds, function (err, hash) {
-    console.log(hash);
+  const { email, name, password } = req.body;
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hash = bcrypt.hashSync(password, salt);
+  db.transaction((trx) => {
+    trx
+      .insert({
+        hash: hash,
+        email: email,
+      })
+      .into("login")
+      .returning("email")
+      .then((loginEmail) => {
+        return trx("users")
+          .returning("*")
+          .insert({
+            email: loginEmail[0].email,
+            name: name,
+            joined: new Date(),
+          })
+          .then((user) => res.json(user[0]));
+      })
+      .then(trx.commit)
+      .catch(trx.rollback);
   });
-  dataBase.users.push({
-    id: "125",
-    name: name,
-    email: email,
-    password: password,
-    entries: "0",
-    joined: new Date(),
-  });
-  res.json(dataBase.users[dataBase.users.length - 1]);
 });
 
 app.get("/profile/:id", (req, res) => {
   const { id } = req.params;
-  let found = false;
-  dataBase.users.forEach((users) => {
-    if (users.id === id) {
-      found = true;
-      res.json(users);
-    }
-  });
-  if (!found) {
-    res.status(400).json("not found");
-  }
+  db.select("*")
+    .from("users")
+    .where({ id })
+    .then((user) => {
+      if (user.length) {
+        res.json(user[0]);
+      } else {
+        res.status(400).json("Not Found");
+      }
+    })
+    .catch((err) => res.status(400).json("error getting user"));
 });
 
-app.put("/profile/image", (req, res) => {
+app.put("/image", (req, res) => {
   const { id } = req.body;
-  let found = false;
-  dataBase.users.forEach((users) => {
-    if (users.id === id) {
-      found = true;
-      users.entries++;
-      res.json(users.entries);
-    }
-  });
-  if (!found) {
-    res.status(400).json("not found");
-  }
+  db("users")
+    .where("id", "=", id)
+    .increment("entries", 1)
+    .returning("entries")
+    .then((entries) => {
+      res.json(entries[0]);
+    })
+    .catch((err) => {
+      res.status(400).json("unable to get entries");
+    });
 });
 
-app.listen(7000, () => {
-  console.log("App is running on port 7000");
+app.listen(3000, () => {
+  console.log("App is running on port 3000");
 });
-
-// // Load hash from your password DB.
-// bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
-//   // result == true
-// });
-// bcrypt.compare(someOtherPlaintextPassword, hash, function(err, result) {
-//   // result == false
-// });
