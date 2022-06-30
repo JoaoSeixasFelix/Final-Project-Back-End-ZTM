@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
+const favicon = require("serve-favicon");
+app.use(favicon(__dirname + "/favicon.ico"));
+app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
 const cors = require("cors");
 app.use(cors());
 const knex = require("knex");
