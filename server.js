@@ -22,6 +22,10 @@ const db = knex({
   },
 });
 
+app.get("/", (req, res) => {
+  res.send(database.users);
+});
+
 app.post("/signin", (req, res) => {
   signin.handleSignIn(req, res, db, bcrypt, saltRounds);
 });
