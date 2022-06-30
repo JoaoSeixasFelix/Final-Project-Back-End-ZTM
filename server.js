@@ -41,5 +41,10 @@ app.put("/image", (req, res) => {
   image.handleImage(req, res, db);
 });
 
-const PORT = process.env.port || "8080";
-app.listen("port", PORT);
+app.listen(process.env.PORT || 3000, function () {
+  console.log(
+    "Express server listening on port %d in %s mode",
+    app.address().port,
+    app.settings.env
+  );
+});
