@@ -10,6 +10,7 @@ const signin = require("./controllers/signin");
 const image = require("./controllers/image");
 const profile = require("./controllers/profile");
 const saltRounds = 10;
+app.set("port", 3000);
 
 const db = knex({
   client: "pg",
@@ -40,7 +41,5 @@ app.put("/image", (req, res) => {
   image.handleImage(req, res, db);
 });
 
-const PORT = process.env.port || "3000";
-app.listen(PORT, () => {
-  console.log(`App is running on port ${process.env.PORT}`);
-});
+const PORT = process.env.port || "8080";
+app.listen("port", PORT);
