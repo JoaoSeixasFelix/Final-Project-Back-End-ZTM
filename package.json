@@ -7,7 +7,7 @@
     "pg": "^8.7.3"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "name": "final-project-back-end-ztm",
   "version": "1.0.0",

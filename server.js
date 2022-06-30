@@ -10,7 +10,6 @@ const signin = require("./controllers/signin");
 const image = require("./controllers/image");
 const profile = require("./controllers/profile");
 const saltRounds = 10;
-app.set("port", 3000);
 
 const db = knex({
   client: "pg",
@@ -41,10 +40,7 @@ app.put("/image", (req, res) => {
   image.handleImage(req, res, db);
 });
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log(
-    "Express server listening on port %d in %s mode",
-    app.address().port,
-    app.settings.env
-  );
+const PORT = process.env.port || "3000";
+app.listen(PORT, () => {
+  console.log(`App is running on port ${PORT}`);
 });
