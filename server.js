@@ -1,11 +1,7 @@
 const express = require("express");
 const app = express();
-app.use(express.json());
 const favicon = require("serve-favicon");
-app.use(favicon(__dirname + "/favicon.ico"));
-app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
 const cors = require("cors");
-app.use(cors());
 const knex = require("knex");
 const bcrypt = require("bcrypt");
 const signup = require("./controllers/signup");
@@ -13,6 +9,13 @@ const signin = require("./controllers/signin");
 const image = require("./controllers/image");
 const profile = require("./controllers/profile");
 const saltRounds = 10;
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token");
+app.use(favicon(__dirname + "/favicon.ico"));
+app.use(express.json());
+app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
+app.use(cors());
 
 const db = knex({
   client: "pg",
