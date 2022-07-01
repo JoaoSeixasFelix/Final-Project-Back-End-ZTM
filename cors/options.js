@@ -11,7 +11,7 @@ const handleHeaders = {
           },
           {
             key: "Access-Control-Allow-Headers",
-            value: "Origin, Content-Type X-Auth-Token",
+            value: "Origin, X-Auth-Token",
           },
           {
             key: "Access-Control-Allow-Credentials",
