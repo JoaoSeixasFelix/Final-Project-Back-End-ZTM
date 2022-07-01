@@ -13,6 +13,10 @@ const headers = {
             key: "Access-Control-Allow-Headers",
             value: "Origin, Content-Type X-Auth-Token",
           },
+          {
+            key: "Access-Control-Allow-Credentials",
+            value: "true",
+          },
         ],
       },
     ];
