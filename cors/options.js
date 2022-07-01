@@ -1,4 +1,4 @@
-const headers = {
+const handleHeaders = {
   async headers() {
     return [
       {
@@ -24,5 +24,5 @@ const headers = {
 };
 
 module.exports = {
-  headers: headers,
+  handleHeaders: handleHeaders,
 };

@@ -13,7 +13,7 @@ const options = require("./cors/options");
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
 app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
-app.use(cors(options.headers));
+app.use(cors(options.handleHeaders));
 
 const db = knex({
   client: "pg",
