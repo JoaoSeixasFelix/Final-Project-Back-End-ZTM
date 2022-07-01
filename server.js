@@ -9,11 +9,11 @@ const signin = require("./controllers/signin");
 const image = require("./controllers/image");
 const profile = require("./controllers/profile");
 const saltRounds = 10;
-const options = require("options");
+const options = require("./cors/options");
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
 app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
-app.use(cors(options));
+app.use(cors(options.headers));
 
 const db = knex({
   client: "pg",

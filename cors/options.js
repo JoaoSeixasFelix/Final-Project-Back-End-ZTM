@@ -1,4 +1,4 @@
-const options = {
+const headers = {
   async headers() {
     return [
       {
@@ -20,5 +20,5 @@ const options = {
 };
 
 module.exports = {
-  options: options,
+  headers: headers,
 };
