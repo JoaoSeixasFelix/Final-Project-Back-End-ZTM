@@ -11,7 +11,7 @@ const profile = require("./controllers/profile");
 const saltRounds = 10;
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
-app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
+app.get("/", (_, res) => res.sendFile(__dirname + "it's working"));
 app.use(cors());
 
 const db = knex({
