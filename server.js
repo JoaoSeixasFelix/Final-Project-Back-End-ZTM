@@ -22,11 +22,8 @@ app.use(cors(options));
 const db = knex({
   client: "pg",
   connection: {
-    host: "postgresql-tapered-00073",
-    port: 5432,
-    user: "joaopaulo",
-    password: "kakaroto123",
-    database: "smart-horse",
+    host: process.env.DATABASE_URL,
+    ssl: true,
   },
 });
 
