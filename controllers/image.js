@@ -1,6 +1,6 @@
-const handleImage = (req, res, db) => {
+const handleImage = (req, res, client) => {
   const { id } = req.body;
-  db("users")
+  client("users")
     .where("id", "=", id)
     .increment("entries", 1)
     .returning("entries")

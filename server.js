@@ -36,19 +36,19 @@ app.get("/", (res, req) => {
 });
 
 app.post("/signin", (req, res) => {
-  signin.handleSignIn(req, res, db, bcrypt, saltRounds);
+  signin.handleSignIn(req, res, client, bcrypt, saltRounds);
 });
 
 app.post("/signup", (req, res) => {
-  signup.handleSignUp(req, res, db, bcrypt, saltRounds);
+  signup.handleSignUp(req, res, client, bcrypt, saltRounds);
 });
 
 app.get("/profile/:id", (req, res) => {
-  profile.handleProfile(req, res, db);
+  profile.handleProfile(req, res, client);
 });
 
 app.put("/image", (req, res) => {
-  image.handleImage(req, res, db);
+  image.handleImage(req, res, client);
 });
 
 const port_number = app.listen(process.env.PORT || 3000);
