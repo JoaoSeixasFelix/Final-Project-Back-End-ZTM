@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
 const cors = require("cors");
 const knex = require("knex");
+const pg = require("pg");
 const bcrypt = require("bcrypt");
 const signup = require("./controllers/signup");
 const signin = require("./controllers/signin");
@@ -14,9 +15,9 @@ app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
 app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
 const accessControlAllowOrigin = "*";
-const options = {
-  origin: accessControlAllowOrigin,
-};
+// const options = {
+//   origin: accessControlAllowOrigin,
+// };
 const dataBase = knex({
   client: "pg",
   connection: {
@@ -26,7 +27,7 @@ const dataBase = knex({
     },
   },
 });
-app.use(cors(options));
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (res, req) => {
