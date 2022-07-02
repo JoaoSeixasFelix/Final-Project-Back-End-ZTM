@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
 const cors = require("cors");
 const knex = require("knex");
@@ -18,7 +18,7 @@ const options = {
   origin: accessControlAllowOrigin,
 };
 app.use(cors(options));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 const db = knex({
   client: "pg",
