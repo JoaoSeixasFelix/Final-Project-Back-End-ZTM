@@ -1,6 +1,7 @@
-const handleProfile = (req, res, db) => {
+const handleProfile = (req, res, dataBase) => {
   const { id } = req.params;
-  db.select("*")
+  dataBase
+    .select("*")
     .from("users")
     .where({ id })
     .then((user) => {
