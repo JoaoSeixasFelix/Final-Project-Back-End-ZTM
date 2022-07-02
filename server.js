@@ -13,7 +13,7 @@ const saltRounds = 10;
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
 app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
-const allowedOrigins = "Access-Control-Allow-Origin: *";
+const allowedOrigins = "*";
 const options = {
   origin: allowedOrigins,
 };
