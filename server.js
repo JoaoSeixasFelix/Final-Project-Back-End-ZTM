@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-// const favicon = require("serve-favicon");
+const favicon = require("serve-favicon");
 const cors = require("cors");
 const knex = require("knex");
 const bcrypt = require("bcrypt");
@@ -10,9 +10,9 @@ const signin = require("./controllers/signin");
 const image = require("./controllers/image");
 const profile = require("./controllers/profile");
 const saltRounds = 10;
-// app.use(favicon(__dirname + "/favicon.ico"));
+app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
-// app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
+app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
 const accessControlAllowOrigin = "*";
 const options = {
   origin: accessControlAllowOrigin,
