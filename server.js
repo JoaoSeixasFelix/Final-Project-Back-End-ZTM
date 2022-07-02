@@ -10,8 +10,6 @@ const signin = require("./controllers/signin");
 const image = require("./controllers/image");
 const profile = require("./controllers/profile");
 const saltRounds = 10;
-const { Client } = require("pg");
-
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
 app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
@@ -22,33 +20,34 @@ const options = {
 app.use(cors(options));
 app.use(bodyParser.json());
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
+const db = knex({
+  client: "pg",
+  connection: {
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 });
-
-client.connect();
 
 app.get("/", (res, req) => {
   res.send("it's working");
 });
 
 app.post("/signin", (req, res) => {
-  signin.handleSignIn(req, res, client, bcrypt, saltRounds);
+  signin.handleSignIn(req, res, db, bcrypt, saltRounds);
 });
 
 app.post("/signup", (req, res) => {
-  signup.handleSignUp(req, res, client, bcrypt, saltRounds);
+  signup.handleSignUp(req, res, db, bcrypt, saltRounds);
 });
 
 app.get("/profile/:id", (req, res) => {
-  profile.handleProfile(req, res, client);
+  profile.handleProfile(req, res, db);
 });
 
 app.put("/image", (req, res) => {
-  image.handleImage(req, res, client);
+  image.handleImage(req, res, db);
 });
 
 const port_number = app.listen(process.env.PORT || 3000);
