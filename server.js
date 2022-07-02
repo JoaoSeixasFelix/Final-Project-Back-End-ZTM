@@ -9,29 +9,11 @@ const signin = require("./controllers/signin");
 const image = require("./controllers/image");
 const profile = require("./controllers/profile");
 const saltRounds = 10;
+// const options = require("./cors/options");
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
 app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
-const allowedOrigins = [
-  {
-    source: "/:paths*",
-    headers: [
-      { key: "Access-Control-Allow-Origin", value: "*" },
-      {
-        key: "Access-Control-Allow-Methods",
-        value: "GET, POST, PATCH, PUT, DELETE, OPTIONS",
-      },
-      {
-        key: "Access-Control-Allow-Headers",
-        value: "Origin, X-Auth-Token",
-      },
-      {
-        key: "Access-Control-Allow-Credentials",
-        value: "true",
-      },
-    ],
-  },
-];
+const allowedOrigins = "Access-Control-Allow-Origin: *";
 const options = {
   origin: allowedOrigins,
 };
