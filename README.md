@@ -2,7 +2,9 @@
 
 The objective of the project was to create all the parts of the project, in order to build a real experience of how to integrate both parts.
 
-The Back-End was created and developed in Node, using the Express framework. It was used from nodemon dependency, for automatic server update.
+The Back-End was created and developed in Node, using the Express framework.
+
+It was used from nodemon dependency, for automatic server update.
 
 Bcrypt was used to hash and encrypt data such as email and password.
 
