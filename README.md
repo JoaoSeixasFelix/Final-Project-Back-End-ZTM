@@ -1,4 +1,13 @@
 # Final-Project-Back-End-ZTM
+
+The objective of the project was to create all the parts of the project, in order to build a real experience of how to integrate both parts.
+
+the Back-End was created and developed in Node, using the Express framework. It was used from nodemon dependency, for automatic server update.
+
+Bcrypt was used to hash and encrypt data such as email and password.
+
+knex was used to make the connection between the database and the developed REST API.
+
 Back End for final aplication course ZTM
 
 - Clone this repo
