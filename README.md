@@ -8,7 +8,7 @@ It was used from nodemon dependency, for automatic server update.
 
 Bcrypt was used to hash and encrypt data such as email and password.
 
-knex was used to make the connection between the database and the developed REST API.
+Knex was used to make the connection between the database and the developed REST API.
 
 Back End for final aplication course ZTM
 
