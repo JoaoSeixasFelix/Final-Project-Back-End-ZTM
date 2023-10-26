@@ -13,7 +13,8 @@ const profile = require("./controllers/profile");
 const saltRounds = 10;
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
-app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
+app.get("/", (_, res) => res.send("it's working"));
+
 const accessControlAllowOrigin = "*";
 const options = {
   origin: accessControlAllowOrigin,
@@ -21,18 +22,14 @@ const options = {
 const dataBase = knex({
   client: "pg",
   connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    host: '127.0.0.1',
+    user: 'joao',
+    password: 'Kakaroto@53787',
+    database: 'smart_brain'
   },
 });
 app.use(cors(options));
 app.use(bodyParser.json());
-
-app.get("/", (res, req) => {
-  res.send("it's working");
-});
 
 app.post("/signin", (req, res) => {
   signin.handleSignIn(req, res, dataBase, bcrypt, saltRounds);
@@ -50,5 +47,8 @@ app.put("/image", (req, res) => {
   image.handleImage(req, res, dataBase);
 });
 
-const port_number = app.listen(process.env.PORT || 3000);
-app.listen(port_number);
+const PORT = 8000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
