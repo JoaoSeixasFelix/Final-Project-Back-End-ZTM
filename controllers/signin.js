@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const handleSignIn = (req, res, dataBase, bcrypt) => {
   dataBase
     .select("email", "hash")
@@ -11,7 +13,15 @@ const handleSignIn = (req, res, dataBase, bcrypt) => {
           .from("users")
           .where("email", "=", req.body.email)
           .then((user) => {
-            res.json(user[0]);
+            // Geração do token JWT
+            const token = jwt.sign(
+              { userId: user.id, username: user.username },
+              'smart_brain',
+              { expiresIn: "1h" }
+            );
+            res.cookie("auth.token", token, {
+            });
+            res.json({ user: user[0], token });
           })
           .catch((err) => {
             res.status(400).json("unable to get user");
