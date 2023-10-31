@@ -29,8 +29,8 @@ const handleSignUp = (req, res, dataBase, bcrypt, saltRounds) => {
             .then((user) => {
               // Geração do token JWT após o signup
               const token = jwt.sign(
-                { userId: user[0].id, email: user[0].email },
-                'seuSegredoJWT',
+                { id: user[0].id, email: user[0].email, name: user[0].name, entries: user[0].entries, joined: user[0].joined },
+                'smart_brain',
                 { expiresIn: '1h' } // Token expira em 1 hora
               );
 

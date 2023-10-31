@@ -1,16 +1,16 @@
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
-const favicon = require("serve-favicon");
+const saltRounds = 10;
 const cors = require("cors");
-const authenticateJWT = require("./helpers/authMiddleware");
 const knex = require("knex");
 const bcrypt = require("bcrypt");
+const favicon = require("serve-favicon");
+const bodyParser = require("body-parser");
+const image = require("./controllers/image");
 const signup = require("./controllers/signup");
 const signin = require("./controllers/signin");
-const image = require("./controllers/image");
 const profile = require("./controllers/profile");
-const saltRounds = 10;
+const authenticateJWT = require("./helpers/authMiddleware");
 
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
@@ -32,7 +32,6 @@ const dataBase = knex({
 app.use(cors(options));
 app.use(bodyParser.json());
 
-// app.use(authenticateJWT);
 
 app.post("/signin", (req, res) => {
   signin.handleSignIn(req, res, dataBase, bcrypt, saltRounds);
@@ -52,7 +51,8 @@ app.put("/image", (req, res) => {
 
 app.post("/verifyToken", (req, res) => {
   authenticateJWT(req, res, () => {
-    res.status(200).json({ message: "Token válido." });
+    const {id, name, entries} = req.user;
+    res.status(200).json({ message: "Token válido.", user: { id, name, entries } });
   });
 });
 

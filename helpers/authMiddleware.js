@@ -1,18 +1,22 @@
 const jwt = require("jsonwebtoken");
 
-const secretKey = process.env.JWT_SECRET || "smartbrain";
+const secretKey = process.env.JWT_SECRET || "smart_brain";
 
 function authenticateJWT(req, res, next) {
-  const token = req.header("Authorization");
+  const authorizationHeader = req.header("Authorization");
 
-  if (!token || !token.startsWith("Bearer ")) {
+  if (!authorizationHeader) {
+    return res.status(401).json({ message: "Token de autenticação ausente." });
+  }
+
+  const [bearer, token] = authorizationHeader.trim().split(" ");
+
+  if (!bearer || bearer.toLowerCase() !== "bearer" || !token) {
     return res.status(401).json({ message: "Token de autenticação inválido." });
   }
 
-  const tokenValue = token.split(" ")[1];
-
   try {
-    const user = jwt.verify(tokenValue, secretKey);
+    const user = jwt.verify(token, secretKey);
     req.user = user;
     next();
   } catch (err) {

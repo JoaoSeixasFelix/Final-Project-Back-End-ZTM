@@ -13,11 +13,9 @@ const handleSignIn = (req, res, dataBase, bcrypt) => {
           .from("users")
           .where("email", "=", req.body.email)
           .then((user) => {
-            // Geração do token JWT
             const token = jwt.sign(
-              { userId: user.id, username: user.username },
-              'smart_brain',
-              { expiresIn: "1h" }
+              { id: user[0].id, email: user[0].email, name: user[0].name, entries: user[0].entries, joined: user[0].joined },
+              'smart_brain'
             );
             res.cookie("auth.token", token, {
             });
