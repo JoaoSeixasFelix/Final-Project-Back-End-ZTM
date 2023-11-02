@@ -11,7 +11,7 @@ const signup = require("./controllers/signup");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const authenticateJWT = require("./helpers/authMiddleware");
-const handleClarifyApi = require("./controllers/faceRecognition"); 
+const handleClarifyApi = require("./controllers/faceRecognition");
 
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
@@ -23,16 +23,15 @@ const options = {
 const dataBase = knex({
   client: "pg",
   connection: {
-    host: '127.0.0.1',
-    user: 'joao',
-    password: 'Kakaroto@53787',
-    database: 'smart_brain'
+    host: "127.0.0.1",
+    user: "joao",
+    password: "Kakaroto@53787",
+    database: "smart_brain",
   },
 });
 
 app.use(cors(options));
 app.use(bodyParser.json());
-
 
 app.post("/signin", (req, res) => {
   signin.handleSignIn(req, res, dataBase, bcrypt, saltRounds);
@@ -52,14 +51,17 @@ app.put("/image", (req, res) => {
 
 app.post("/verifyToken", (req, res) => {
   authenticateJWT(req, res, () => {
-    const {id, name, entries} = req.user;
-    res.status(200).json({ message: "Token válido.", user: { id, name, entries } });
+    const { id, name, entries } = req.user;
+    res
+      .status(200)
+      .json({ message: "Token válido.", user: { id, name, entries } });
   });
 });
 
 app.post("/faceapp", async (request, response) => {
   try {
-    await handleClarifyApi(request, response);
+    const responseData = await handleClarifyApi(request, response);
+    response.status(200).json({ processedData: responseData });
   } catch (error) {
     console.error("Erro ao processar a imagem:", error);
     response.status(500).json({ error: "Erro ao processar a imagem" });

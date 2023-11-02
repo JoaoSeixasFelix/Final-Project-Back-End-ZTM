@@ -6,7 +6,7 @@ const handleClarifyApi = async (request, response) => {
   const APP_ID = "d85b056a98b44bc99fe922613461ae77";
   const MODEL_ID = "general-image-recognition";
   const MODEL_VERSION = "aa7f35c01e0642fda5cf400f543e7c40";
-  const { link: IMAGE_URL } = request.body;
+  const {link: IMAGE_URL} = request.body;
   const raw = JSON.stringify({
     user_app_id: {
       user_id: USER_ID,
@@ -38,15 +38,20 @@ const handleClarifyApi = async (request, response) => {
       }
     );
     
-    const firstOutput = responseClarifyApi?.data?.outputs?.[0];
-    if (firstOutput) {
-      const { data } = firstOutput;
-      response.json(data);
+    if (responseClarifyApi.status === 200) {
+      const firstOutput = responseClarifyApi?.data?.outputs?.[0];
+      if (firstOutput) {
+        const { data } = firstOutput;
+        return data;
+      } else {
+        throw new Error("Resposta da API Clarifai sem dados válidos.");
+      }
     } else {
-      console.error("Resposta da API Clarifai sem dados válidos.");
+      throw new Error("Erro ao processar resposta da API Clarifai: " + responseClarifyApi.statusText);
     }
   } catch (error) {
     console.error("Erro ao processar resposta da API Clarifai:", error);
+    throw error;
   }
 };
 
