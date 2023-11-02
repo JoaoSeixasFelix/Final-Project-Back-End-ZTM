@@ -11,6 +11,7 @@ const signup = require("./controllers/signup");
 const signin = require("./controllers/signin");
 const profile = require("./controllers/profile");
 const authenticateJWT = require("./helpers/authMiddleware");
+const handleClarifyApi = require("./controllers/faceRecognition"); 
 
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.json());
@@ -56,7 +57,16 @@ app.post("/verifyToken", (req, res) => {
   });
 });
 
-const PORT = 8000;
+app.post("/faceapp", async (request, response) => {
+  try {
+    await handleClarifyApi(request, response);
+  } catch (error) {
+    console.error("Erro ao processar a imagem:", error);
+    response.status(500).json({ error: "Erro ao processar a imagem" });
+  }
+});
+
+const PORT = 8080;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
